@@ -12,7 +12,17 @@ Route::post('/store', [App\Http\Controllers\UserController::class, 'store'])->na
 Route::get('/edit/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('edit');
 Route::post('/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('update');
 
-Route::get('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('delete');
+// Route::get('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('delete');
+
+Route::middleware('role:admin')->group(function () {
+    Route::get('/delete/{id}', function () {
+        return "only admin can delete a user";
+    });
+});
+
+Route::middleware('role:admin')->group(function () {
+    Route::get('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('delete');
+});
 
 
 //cars
@@ -24,4 +34,8 @@ Route::post('/storeCars', [App\Http\Controllers\CarController::class, 'storeCars
 Route::get('/editCars/{id}', [App\Http\Controllers\CarController::class, 'editCars'])->name('editCars');
 Route::post('/updateCars/{id}', [App\Http\Controllers\CarController::class, 'updateCars'])->name('updateCars');
 
-Route::get('/deleteCars/{id}', [App\Http\Controllers\UserController::class, 'deleteCars'])->name('deleteCars');
+// Route::get('/deleteCars/{id}', [App\Http\Controllers\UserController::class, 'deleteCars'])->name('deleteCars');
+
+Route::middleware('role:admin')->group(function () {
+    Route::get('/deleteCars/{id}', [App\Http\Controllers\UserController::class, 'deleteCars'])->name('deleteCars');
+});
