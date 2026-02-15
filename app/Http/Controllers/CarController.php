@@ -4,37 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\CarsData;
 
 class CarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    function cars(Request $request){
-        $data = Car::all();
-
-        // dd($data);
+   function cars(Request $request)
+    {
+        $data = Car::with('carData')->get(); // load relationship
 
         return view('cars', compact('data'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
      function addCars(Request $request){
     
-        return view('addCars');
+        $carsData = CarsData::all();
+
+        return view('addCars', compact('carsData'));
     }
     function storeCars(Request $request){
         $validated = $request->validate([
-            'name' => 'required|max:50',
-            'model' => 'required|max:15'
-            
+            'car_data_id' => 'required'
         ]);
 
         $cars = new Car();
-    $cars->name = $validated['name'];
-    $cars->model = $validated['model'];
-    $cars->save();
+        $cars->car_data_id = $validated['car_data_id'];
+         $cars->save();
 
     return redirect()->route('addCars')->with('success', 'Car added successfully!');
         

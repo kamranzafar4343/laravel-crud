@@ -14,16 +14,18 @@
     
 <form action="{{ route('storeCars') }}" method="post">
     @csrf
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Name</label>
-    <input type="name" class="form-control" id="name" name="name" value="{{ old('name') }}" aria-describedby="">
-    <div id="" class="form-text"></div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Model</label>
-    <input type="model" class="form-control" id="model" name="model" value="{{ old('model') }}" aria-describedby="">
-    <div id="" class="form-text"></div>
-  </div>
+
+    <select name="car_data_id" class="form-control mb-3" style="width: 300px;">
+      <option value="">Select Car</option>
+
+      @foreach($carsData as $car)
+          <option value="{{ $car->id }}">
+              {{ $car->car_name }} - {{ $car->car_model }}
+          </option>
+      @endforeach
+
+  </select>
+
   
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

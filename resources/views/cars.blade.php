@@ -27,9 +27,11 @@
            @if (isset($data) && $data->count() > 0)           
            @foreach ($data as $cars)
             <tr>
-               <td>{{ $cars-> id ?? '' }}</td>
-               <td>{{ $cars-> name ?? '' }}</td>
-               <td>{{ $cars-> model ?? '' }}</td>
+               <td>{{ $cars->id ?? '' }}</td>
+
+               {{-- relationship access --}}
+               <td>{{ $cars->carData->car_name ?? '' }}</td>
+               <td>{{ $cars->carData->car_model ?? '' }}</td>
                <td>
                    
                  <a href="{{ route('editCars', base64_encode($cars -> id)) }}" class="btn btn-warning btn-sm">
